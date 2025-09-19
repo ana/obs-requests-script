@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Workable OBS request view
 // @namespace    https://build.opensuse.org
-// @version      2025-09-16
+// @version      2025-09-18
 // @description  Show a workable OBS request view
 // @author       Ana Guerrero Lopez with hints from Leo GR
 // @match        https://build.opensuse.org/requests/*
@@ -29,7 +29,6 @@
         #${containerId} .extra-section {
             border: 1px solid #ddd;
             padding: 1em;
-            background: #f9f9f9;
             margin-bottom: 1.5em;
         }
         #${containerId} .loading {
