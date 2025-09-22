@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Workable OBS request view
 // @namespace    https://build.opensuse.org
-// @version      2025-09-21
+// @version      2025-09-22
 // @description  Show a workable OBS request view
 // @author       Ana Guerrero Lopez with hints from Leo GR
 // @match        https://build.opensuse.org/requests/*
