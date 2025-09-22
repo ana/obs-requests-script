@@ -119,6 +119,41 @@
         document.getElementById(containerId).appendChild(section);
     }
 
+    // Extract and evaluate inline scripts from HTML string
+    function getAndEvalInlineScripts(htmlString) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlString, "text/html");
+
+        // 1. Extract inline scripts skipping the ones that have src attribute
+        const rawInlineScripts = [...doc.querySelectorAll("script")]
+        .filter(s => !s.hasAttribute("src"))
+        .map(s => s.textContent.trim())
+        .filter(code => code.length > 0);
+
+        // 2. Process each inline script
+        const inlineScripts = rawInlineScripts.map(code => {
+            // We need to remove the ready function wrapper if present
+            const match = code.match(/\$\(document\)\.ready\s*\(\s*function\s*\(\)\s*{([\s\S]*?)}\s*\);?/);
+
+            if (match) {
+                return match[1].trim(); // return the code inside the ready function
+            }
+            return code; // if no ready, return as is
+        });
+
+        console.log("Processed scripts:", inlineScripts);
+
+        // 3. Execute the content
+        inlineScripts.forEach(code => {
+            try {
+                eval(code);
+            } catch (err) {
+                // ignore errors as it would contain imports and other stuff already loaded 
+                // in addScript function
+            }
+        });
+    }
+
     // Fetch and insert additional content
     async function fetchAndInsert(subPath) {
         const baseUrl = window.location.origin;
@@ -135,13 +170,10 @@
             const sanitized = await sanitizeHTML(html, baseUrl);
             addSection(`/${subPath}`, sanitized);
 
-            // Tricky.... This will have the function properly loading, but I don't know why it is not called.
-            // This introduces a one second delay but the right solution is to extract the script in sanitized and eval it
-            if (subPath === 'build_results') {
-                setTimeout(() => {
-                    eval('updateBuildResultBeta()');
-                }, 1000);
-            }
+            // collect all the scripts included in html
+            // WARNING: not the sanitized but the original html
+            // so we can eval all the scripts from the requested tab 
+            getAndEvalInlineScripts(html);
 
         } catch (err) {
             console.error('Error fetching content:', err);
