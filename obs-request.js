@@ -36,6 +36,10 @@
             font-size: 1.2em;
             color: #888;
         }
+        
+        .collapse:not(.show) {
+            display: block!important;
+        }
     `);
 
     const addExternalScript = async (head, baseUrl) => {
