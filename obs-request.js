@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Workable OBS request view
 // @namespace    https://build.opensuse.org
-// @version      2025-09-18
+// @version      2025-09-21
 // @description  Show a workable OBS request view
 // @author       Ana Guerrero Lopez with hints from Leo GR
 // @match        https://build.opensuse.org/requests/*
@@ -187,12 +187,12 @@
         }
 
         // And finally remove the annoying buttons
-        const annoyingbutton1 = document.querySelector('input.btn.btn-danger.me-2');
+        const annoyingbutton1 = document.querySelector('input.btn.btn-danger.ms-2');
         if (annoyingbutton1) {
             annoyingbutton1.remove();
         }
 
-        const annoyingbutton2 = document.querySelector('div.btn-group.me-2');
+        const annoyingbutton2 = document.querySelector('div.btn-group.ms-2');
         if (annoyingbutton2) {
             annoyingbutton2.remove();
         }
